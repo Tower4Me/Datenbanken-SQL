@@ -707,6 +707,154 @@ p strong { color: var(--text); font-weight: 600; }
   .topbar { padding: 1rem 1.25rem; }
   .card-grid { grid-template-columns: 1fr; }
 }
+
+/* ─── TERMINAL ─── */
+.terminal-wrapper {
+  background: #050709;
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 1.5rem 0;
+  font-family: 'DM Mono', monospace;
+}
+.terminal-header {
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border2);
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.terminal-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.terminal-title {
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  letter-spacing: 0.08em;
+  margin-left: 0.5rem;
+  flex: 1;
+}
+.terminal-reset-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--text-faint);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.terminal-reset-btn:hover { border-color: var(--red); color: var(--red); }
+.terminal-output {
+  padding: 1rem 1.25rem;
+  min-height: 160px;
+  max-height: 320px;
+  overflow-y: auto;
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+.terminal-line { margin-bottom: 0.1rem; word-break: break-all; white-space: pre-wrap; }
+.terminal-line.system { color: var(--text-faint); }
+.terminal-line.input { color: var(--accent); }
+.terminal-line.output { color: var(--text-dim); }
+.terminal-line.success { color: var(--green); }
+.terminal-line.error { color: var(--red); }
+.terminal-line.table-out { color: var(--text); }
+.terminal-input-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid var(--border);
+  background: #080a0e;
+}
+.terminal-prompt {
+  color: var(--green);
+  font-size: 0.82rem;
+  padding-top: 0.35rem;
+  flex-shrink: 0;
+}
+.terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  resize: none;
+}
+.terminal-run-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  padding: 0.4rem 1rem;
+  border-radius: 5px;
+  border: 1px solid var(--green);
+  background: rgba(0,229,160,0.08);
+  color: var(--green);
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.terminal-run-btn:hover { background: rgba(0,229,160,0.2); }
+
+/* ─── STORY TASKS ─── */
+.story-task {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s;
+}
+.story-task.locked {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.story-task.completed {
+  border-color: var(--green);
+  background: rgba(0,229,160,0.04);
+}
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+.task-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-faint);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.task-status {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--green);
+}
+.task-story {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  margin-bottom: 0.75rem;
+  font-style: normal;
+  line-height: 1.6;
+}
+.task-story em { color: var(--text); font-style: italic; }
+.task-hint {
+  font-size: 0.82rem;
+  color: var(--text-faint);
+  background: var(--surface2);
+  border-radius: 6px;
+  padding: 0.6rem 0.9rem;
+  border-left: 2px solid var(--accent);
+}
+
 </style>
 </head>
 <body>
@@ -1861,9 +2009,211 @@ abteilung:   (1, 'IT'), (2, 'Vertrieb')
       </div>
     </div>
   </div>
-  <div class="page" id="page-m4-ddl"><span class="chapter-tag tag-ddl">Modul 04</span><h1>DDL Befehle</h1><p class="lead">Folgt im nächsten Update.</p></div>
-  <div class="page" id="page-m4-terminal"><span class="chapter-tag tag-terminal">Modul 04</span><h1>Praxis: Firma aufbauen</h1><p class="lead">Folgt im nächsten Update.</p></div>
-  <div class="page" id="page-m4-quiz"><span class="chapter-tag tag-quiz">Quiz 4</span><h1>Quiz 4</h1><p class="lead">Folgt wenn Modul 4 fertig ist.</p></div>
+  <!-- MODUL 4 DDL -->
+  <div class="page" id="page-m4-ddl">
+    <span class="chapter-tag tag-ddl">Modul 04 &middot; DDL</span>
+    <h1>DDL &ndash; Data Definition Language</h1>
+    <p class="lead">DDL (Data Definition Language = Datendefinitionssprache) umfasst alle Befehle, die die Struktur einer Datenbank ver&auml;ndern. Nicht die Daten selbst, sondern das Ger&uuml;st drumherum.</p>
+    <div class="info-box purple"><div class="box-label">Merkhilfe</div><p>DDL = Regale bauen. Du legst fest wie die Datenbank aussieht. Erst wenn das Regal steht, kannst du B&uuml;cher (Daten) reinstellen &ndash; das ist dann DML.</p></div>
+    <h2>CREATE TABLE</h2>
+    <p>Erstellt eine neue Tabelle mit definierten Spalten und Datentypen. Das ist der erste Schritt bevor irgendwelche Daten gespeichert werden k&ouml;nnen.</p>
+    <div class="code-block"><span class="code-lang">SQLite</span><span class="kw">CREATE TABLE</span> <span class="tbl">abteilung</span> (
+  id          <span class="fn">INTEGER</span>      <span class="kw">PRIMARY KEY AUTOINCREMENT</span>,
+  bezeichnung <span class="fn">VARCHAR</span>(<span class="num">100</span>) <span class="kw">NOT NULL</span>,
+  standort    <span class="fn">VARCHAR</span>(<span class="num">100</span>)
+);</div>
+    <div class="info-box yellow"><div class="box-label">Reihenfolge wichtig</div><p>Wenn Tabelle A einen Fremdschl&uuml;ssel auf Tabelle B hat, muss Tabelle B zuerst erstellt werden. <code style="font-family:&#39;DM Mono&#39;,monospace">abteilung</code> vor <code style="font-family:&#39;DM Mono&#39;,monospace">mitarbeiter</code>, weil mitarbeiter einen FK auf abteilung hat.</p></div>
+    <h2>ALTER TABLE</h2>
+    <p>&Auml;ndert eine bestehende Tabelle nachtr&auml;glich. Du kannst Spalten hinzuf&uuml;gen, &auml;ndern oder l&ouml;schen.</p>
+    <div class="code-block"><span class="code-lang">SQL</span><span class="kw">ALTER TABLE</span> <span class="tbl">mitarbeiter</span> <span class="kw">ADD COLUMN</span> einstellungsdatum <span class="fn">DATE</span>;
+<span class="kw">ALTER TABLE</span> <span class="tbl">mitarbeiter</span> <span class="kw">RENAME COLUMN</span> email <span class="kw">TO</span> email_adresse;
+<span class="kw">ALTER TABLE</span> <span class="tbl">mitarbeiter</span> <span class="kw">RENAME TO</span> personal;</div>
+    <h2>DROP TABLE</h2>
+    <p>L&ouml;scht eine Tabelle vollst&auml;ndig &ndash; inklusive aller Daten. Nicht r&uuml;ckg&auml;ngig zu machen.</p>
+    <div class="code-block"><span class="code-lang">SQL</span><span class="kw">DROP TABLE</span> <span class="tbl">mitarbeiter</span>;
+<span class="kw">DROP TABLE IF EXISTS</span> <span class="tbl">mitarbeiter</span>;</div>
+    <div class="info-box red"><div class="box-label">Achtung</div><p>DROP TABLE l&ouml;scht die Tabelle und alle Daten darin permanent. Kein Undo. Immer vorher Backup machen.</p></div>
+    <h2>TRUNCATE TABLE</h2>
+    <p>Leert eine Tabelle vollst&auml;ndig &ndash; l&ouml;scht alle Zeilen, beh&auml;lt aber die Tabellenstruktur.</p>
+    <div class="code-block"><span class="code-lang">MySQL / PostgreSQL</span><span class="kw">TRUNCATE TABLE</span> <span class="tbl">mitarbeiter</span>;</div>
+    <div class="info-box yellow"><div class="box-label">Dialekt-Hinweis: SQLite</div><p>SQLite kennt kein TRUNCATE. Stattdessen: <code style="font-family:&#39;DM Mono&#39;,monospace">DELETE FROM mitarbeiter;</code></p></div>
+    <h2>&Uuml;bersicht DDL-Befehle</h2>
+    <table class="data-table">
+      <thead><tr><th>Befehl</th><th>Wirkung</th><th>Daten weg?</th><th>Struktur weg?</th></tr></thead>
+      <tbody>
+        <tr><td><code style="font-family:&#39;DM Mono&#39;,monospace">CREATE TABLE</code></td><td>Neue Tabelle anlegen</td><td>&ndash;</td><td>&ndash;</td></tr>
+        <tr><td><code style="font-family:&#39;DM Mono&#39;,monospace">ALTER TABLE</code></td><td>Tabelle &auml;ndern</td><td>Nein</td><td>Nein</td></tr>
+        <tr><td><code style="font-family:&#39;DM Mono&#39;,monospace">DROP TABLE</code></td><td>Tabelle l&ouml;schen</td><td>Ja</td><td>Ja</td></tr>
+        <tr><td><code style="font-family:&#39;DM Mono&#39;,monospace">TRUNCATE TABLE</code></td><td>Alle Daten leeren</td><td>Ja</td><td>Nein</td></tr>
+      </tbody>
+    </table>
+    <h2>Normalisierung (Grundprinzip)</h2>
+    <div class="card-grid">
+      <div class="card-item blue"><div class="card-label">1NF</div><h4>Atomare Werte</h4><p>Jede Zelle enth&auml;lt nur einen einzelnen Wert. Keine Listen in einer Zelle.</p></div>
+      <div class="card-item green"><div class="card-label">2NF</div><h4>Keine Teilabh&auml;ngigkeit</h4><p>Jede Nicht-Schl&uuml;sselspalte h&auml;ngt vom gesamten Prim&auml;rschl&uuml;ssel ab.</p></div>
+      <div class="card-item purple"><div class="card-label">3NF</div><h4>Keine transitiven Abh&auml;ngigkeiten</h4><p>Kein Nicht-Schl&uuml;sselfeld darf von einem anderen Nicht-Schl&uuml;sselfeld abh&auml;ngen.</p></div>
+    </div>
+    <h2>Index</h2>
+    <p>Ein <strong>Index</strong> beschleunigt Abfragen auf bestimmte Spalten. Ohne Index: Full Table Scan (vollst&auml;ndiger Tabellenscan). Mit Index: direkte Suche.</p>
+    <div class="code-block"><span class="code-lang">SQL</span><span class="kw">CREATE INDEX</span> idx_email <span class="kw">ON</span> <span class="tbl">mitarbeiter</span>(email);
+<span class="kw">DROP INDEX</span> idx_email;</div>
+    <div class="compare-row">
+      <div class="compare-col good"><div class="col-header">Vorteile</div><ul><li>SELECT-Abfragen auf indizierte Spalten viel schneller</li><li>PK und UNIQUE sind automatisch indiziert</li></ul></div>
+      <div class="compare-col bad"><div class="col-header">Nachteile</div><ul><li>Zus&auml;tzlicher Speicherplatz</li><li>INSERT/UPDATE/DELETE langsamer</li></ul></div>
+    </div>
+    <div class="divider"></div>
+    <div style="display:flex;gap:1rem">
+      <button class="btn-nav" onclick="showPage(&#39;m3-quiz&#39;)">&#8592; Zur&uuml;ck</button>
+      <button class="btn-nav primary" onclick="showPage(&#39;m4-terminal&#39;)">Weiter: Praxis Terminal &#8594;</button>
+    </div>
+  </div>
+
+  <!-- MODUL 4 TERMINAL -->
+  <div class="page" id="page-m4-terminal">
+    <span class="chapter-tag tag-terminal">Modul 04 &middot; Praxis</span>
+    <h1>Praxis: Die TowerTech GmbH</h1>
+    <p class="lead">Du wurdest als IT-Azubi bei der <strong>TowerTech GmbH</strong> eingestellt. Deine erste Aufgabe: die Datenbank aufbauen. Das Terminal unten ist eine echte SQLite-Engine direkt in deinem Browser.</p>
+    <div class="info-box blue"><div class="box-label">So funktioniert das Terminal</div><p>Gib SQL-Befehle ein und dr&uuml;ck Enter oder klick Ausf&uuml;hren. Echte SQL-Syntax, echte Fehler. Jede Aufgabe baut auf der vorherigen auf. Mit <code style="font-family:&#39;DM Mono&#39;,monospace">.tables</code> siehst du alle Tabellen, mit <code style="font-family:&#39;DM Mono&#39;,monospace">PRAGMA table_info(name);</code> die Spalten einer Tabelle.</p></div>
+    <div id="ddl-tasks">
+      <div class="story-task" id="task-ddl-0">
+        <div class="task-header"><span class="task-num">Aufgabe 1 von 4</span><span class="task-status" id="status-ddl-0"></span></div>
+        <div class="task-story">Der Chef ruft dich rein: <em>&bdquo;Wir brauchen eine Tabelle f&uuml;r unsere Abteilungen. Jede Abteilung hat eine ID, einen Namen und einen Standort. Die ID soll automatisch hochz&auml;hlen.&ldquo;</em></div>
+        <div class="task-hint"><strong>Ziel:</strong> Erstelle Tabelle <code style="font-family:&#39;DM Mono&#39;,monospace">abteilung</code> mit: <code style="font-family:&#39;DM Mono&#39;,monospace">id</code> (INTEGER PK AUTOINCREMENT), <code style="font-family:&#39;DM Mono&#39;,monospace">bezeichnung</code> (VARCHAR(100) NOT NULL), <code style="font-family:&#39;DM Mono&#39;,monospace">standort</code> (VARCHAR(100)).</div>
+      </div>
+      <div class="story-task locked" id="task-ddl-1">
+        <div class="task-header"><span class="task-num">Aufgabe 2 von 4</span><span class="task-status" id="status-ddl-1">&#128274; gesperrt</span></div>
+        <div class="task-story"><em>&bdquo;Gut. Jetzt brauchen wir Mitarbeiter: Name, E-Mail (eindeutig), Gehalt (Standard 0), und zu welcher Abteilung sie geh&ouml;ren.&ldquo;</em></div>
+        <div class="task-hint"><strong>Ziel:</strong> Erstelle <code style="font-family:&#39;DM Mono&#39;,monospace">mitarbeiter</code> mit: <code style="font-family:&#39;DM Mono&#39;,monospace">id</code> (INTEGER PK AUTOINCREMENT), <code style="font-family:&#39;DM Mono&#39;,monospace">name</code> (VARCHAR(100) NOT NULL), <code style="font-family:&#39;DM Mono&#39;,monospace">email</code> (VARCHAR(150) UNIQUE), <code style="font-family:&#39;DM Mono&#39;,monospace">gehalt</code> (DECIMAL(10,2) DEFAULT 0.00), <code style="font-family:&#39;DM Mono&#39;,monospace">abt_id</code> (INTEGER, FK auf abteilung.id).</div>
+      </div>
+      <div class="story-task locked" id="task-ddl-2">
+        <div class="task-header"><span class="task-num">Aufgabe 3 von 4</span><span class="task-status" id="status-ddl-2">&#128274; gesperrt</span></div>
+        <div class="task-story"><em>&bdquo;Wir haben vergessen: jeder Mitarbeiter soll auch ein Einstellungsdatum haben. F&uuml;g die Spalte nachtr&auml;glich hinzu.&ldquo;</em></div>
+        <div class="task-hint"><strong>Ziel:</strong> F&uuml;ge der Tabelle <code style="font-family:&#39;DM Mono&#39;,monospace">mitarbeiter</code> die Spalte <code style="font-family:&#39;DM Mono&#39;,monospace">einstellungsdatum</code> (DATE) hinzu via ALTER TABLE.</div>
+      </div>
+      <div class="story-task locked" id="task-ddl-3">
+        <div class="task-header"><span class="task-num">Aufgabe 4 von 4</span><span class="task-status" id="status-ddl-3">&#128274; gesperrt</span></div>
+        <div class="task-story"><em>&bdquo;Kannst du die alte Testtabelle &lsquo;temp_daten&rsquo; l&ouml;schen? Aber nur wenn sie existiert &ndash; ich bin nicht sicher ob sie schon angelegt wurde.&ldquo;</em></div>
+        <div class="task-hint"><strong>Ziel:</strong> L&ouml;sche <code style="font-family:&#39;DM Mono&#39;,monospace">temp_daten</code> falls vorhanden. Nutze <code style="font-family:&#39;DM Mono&#39;,monospace">DROP TABLE IF EXISTS</code>.</div>
+      </div>
+    </div>
+    <div class="terminal-wrapper">
+      <div class="terminal-header">
+        <span class="terminal-dot" style="background:#ff5f57"></span>
+        <span class="terminal-dot" style="background:#febc2e"></span>
+        <span class="terminal-dot" style="background:#28c840"></span>
+        <span class="terminal-title">SQLite &middot; TowerTech GmbH</span>
+        <button class="terminal-reset-btn" onclick="resetTerminal(&#39;ddl&#39;)">Datenbank zur&uuml;cksetzen</button>
+      </div>
+      <div class="terminal-output" id="terminal-output-ddl">
+        <div class="terminal-line system">SQLite 3 &middot; TowerTech GmbH Datenbank bereit.</div>
+        <div class="terminal-line system">Tippe SQL-Befehle und best&auml;tige mit Enter oder klick Ausf&uuml;hren.</div>
+        <div class="terminal-line system">Tipp: .tables zeigt alle Tabellen &middot; PRAGMA table_info(name); zeigt Spalten</div>
+      </div>
+      <div class="terminal-input-row">
+        <span class="terminal-prompt">sql&gt;</span>
+        <textarea class="terminal-input" id="terminal-input-ddl" rows="2" placeholder="SQL eingeben..." onkeydown="handleTerminalKey(event,&#39;ddl&#39;)"></textarea>
+        <button class="terminal-run-btn" onclick="runSQL(&#39;ddl&#39;)">Ausf&uuml;hren</button>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div style="display:flex;gap:1rem">
+      <button class="btn-nav" onclick="showPage(&#39;m4-ddl&#39;)">&#8592; Zur&uuml;ck</button>
+      <button class="btn-nav primary" onclick="showPage(&#39;m4-quiz&#39;)">Weiter: Quiz 4 &#8594;</button>
+    </div>
+  </div>
+
+  <!-- MODUL 4 QUIZ -->
+  <div class="page" id="page-m4-quiz">
+    <span class="chapter-tag tag-quiz">Modul 04 &middot; Quiz</span>
+    <h1>Quiz 4: DDL</h1>
+    <p class="lead">7 Fragen zu DDL-Befehlen, Normalisierung und Indizes.</p>
+    <div class="quiz-container" id="quiz-m4">
+      <div class="quiz-question" data-q="0">
+        <div class="question-num">Frage 1 von 7</div>
+        <div class="question-text">Was bedeutet DDL?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,0,&#39;A&#39;)"><span class="option-letter">A</span> Data Deletion Language</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,0,&#39;B&#39;)"><span class="option-letter">B</span> Data Definition Language</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,0,&#39;C&#39;)"><span class="option-letter">C</span> Database Description Logic</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,0,&#39;D&#39;)"><span class="option-letter">D</span> Dynamic Data Linking</button>
+        </div>
+        <div class="quiz-feedback" id="fb-m4-0"></div>
+      </div>
+      <div class="quiz-question" data-q="1">
+        <div class="question-num">Frage 2 von 7</div>
+        <div class="question-text">Du willst sichergehen dass kein Fehler entsteht wenn du eine Tabelle l&ouml;schst die m&ouml;glicherweise nicht existiert. Welcher Befehl ist korrekt?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,1,&#39;A&#39;)"><span class="option-letter">A</span> DROP TABLE mitarbeiter;</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,1,&#39;B&#39;)"><span class="option-letter">B</span> DELETE TABLE IF EXISTS mitarbeiter;</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,1,&#39;C&#39;)"><span class="option-letter">C</span> DROP TABLE IF EXISTS mitarbeiter;</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,1,&#39;D&#39;)"><span class="option-letter">D</span> REMOVE TABLE mitarbeiter;</button>
+        </div>
+        <div class="quiz-feedback" id="fb-m4-1"></div>
+      </div>
+      <div class="quiz-question" data-q="2">
+        <div class="question-num">Frage 3 von 7</div>
+        <div class="question-text">Was ist der Unterschied zwischen DROP TABLE und TRUNCATE TABLE?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,2,&#39;A&#39;)"><span class="option-letter">A</span> Kein Unterschied, beide l&ouml;schen alles</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,2,&#39;B&#39;)"><span class="option-letter">B</span> DROP l&ouml;scht Daten und Struktur, TRUNCATE l&ouml;scht nur Daten und beh&auml;lt die Struktur</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,2,&#39;C&#39;)"><span class="option-letter">C</span> TRUNCATE l&ouml;scht Daten und Struktur, DROP nur die Daten</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,2,&#39;D&#39;)"><span class="option-letter">D</span> DROP ist r&uuml;ckg&auml;ngig machbar, TRUNCATE nicht</button>
+        </div>
+        <div class="quiz-feedback" id="fb-m4-2"></div>
+      </div>
+      <div class="quiz-question" data-q="3">
+        <div class="question-num">Frage 4 von 7</div>
+        <div class="question-text">Du willst einer bestehenden Tabelle nachtr&auml;glich eine neue Spalte hinzuf&uuml;gen. Welcher Befehl ist korrekt?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,3,&#39;A&#39;)"><span class="option-letter">A</span> CREATE COLUMN telefon VARCHAR(20);</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,3,&#39;B&#39;)"><span class="option-letter">B</span> UPDATE TABLE mitarbeiter ADD telefon;</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,3,&#39;C&#39;)"><span class="option-letter">C</span> ALTER TABLE mitarbeiter ADD COLUMN telefon VARCHAR(20);</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,3,&#39;D&#39;)"><span class="option-letter">D</span> MODIFY TABLE mitarbeiter ADD telefon VARCHAR(20);</button>
+        </div>
+        <div class="quiz-feedback" id="fb-m4-3"></div>
+      </div>
+      <div class="quiz-question" data-q="4">
+        <div class="question-num">Frage 5 von 7</div>
+        <div class="question-text">Was beschreibt die erste Normalform (1NF)?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,4,&#39;A&#39;)"><span class="option-letter">A</span> Jede Tabelle muss einen Prim&auml;rschl&uuml;ssel haben</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,4,&#39;B&#39;)"><span class="option-letter">B</span> Jede Zelle enth&auml;lt nur einen einzelnen, atomaren Wert &ndash; keine Listen</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,4,&#39;C&#39;)"><span class="option-letter">C</span> Alle Spalten m&uuml;ssen NOT NULL sein</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,4,&#39;D&#39;)"><span class="option-letter">D</span> Keine Fremdschl&uuml;ssel erlaubt</button>
+        </div>
+        <div class="quiz-feedback" id="fb-m4-4"></div>
+      </div>
+      <div class="quiz-question" data-q="5">
+        <div class="question-num">Frage 6 von 7</div>
+        <div class="question-text">Warum muss bei einem Fremdschl&uuml;ssel die referenzierte Tabelle zuerst erstellt werden?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,5,&#39;A&#39;)"><span class="option-letter">A</span> Das ist nicht n&ouml;tig, die Reihenfolge spielt keine Rolle</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,5,&#39;B&#39;)"><span class="option-letter">B</span> Weil der FK auf einen PK verweist der bereits existieren muss</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,5,&#39;C&#39;)"><span class="option-letter">C</span> Weil sonst der Index nicht angelegt werden kann</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,5,&#39;D&#39;)"><span class="option-letter">D</span> Das ist nur bei MySQL so</button>
+        </div>
+        <div class="quiz-feedback" id="fb-m4-5"></div>
+      </div>
+      <div class="quiz-question" data-q="6">
+        <div class="question-num">Frage 7 von 7</div>
+        <div class="question-text">Was ist ein Nachteil von zu vielen Indizes auf einer Tabelle?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,6,&#39;A&#39;)"><span class="option-letter">A</span> SELECT-Abfragen werden langsamer</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,6,&#39;B&#39;)"><span class="option-letter">B</span> Die Tabelle kann nicht mehr gel&ouml;scht werden</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,6,&#39;C&#39;)"><span class="option-letter">C</span> INSERT, UPDATE und DELETE werden langsamer weil alle Indizes aktualisiert werden m&uuml;ssen</button>
+          <button class="quiz-option" onclick="selectOption(this,&#39;m4&#39;,6,&#39;D&#39;)"><span class="option-letter">D</span> Fremdschl&uuml;ssel funktionieren nicht mehr</button>
+        </div>
+        <div class="quiz-feedback" id="fb-m4-6"></div>
+      </div>
+      <div class="quiz-result" id="result-m4">
+        <div class="result-score" id="result-score-m4"></div>
+        <div class="result-label">Punkte erreicht</div>
+        <div class="result-msg" id="result-msg-m4"></div>
+        <button class="reset-btn" onclick="resetQuiz(&#39;m4&#39;)">Quiz zur&uuml;cksetzen</button>
+        <button class="btn-nav primary" style="margin-left:0.75rem" onclick="showPage(&#39;m5-dml&#39;)">Weiter zu Modul 5 &#8594;</button>
+      </div>
+    </div>
+  </div>
   <div class="page" id="page-m5-dml"><span class="chapter-tag tag-dml">Modul 05</span><h1>DML Befehle</h1><p class="lead">Folgt im nächsten Update.</p></div>
   <div class="page" id="page-m5-terminal"><span class="chapter-tag tag-terminal">Modul 05</span><h1>Praxis: Azubi-Chaos</h1><p class="lead">Folgt im nächsten Update.</p></div>
   <div class="page" id="page-m5-quiz"><span class="chapter-tag tag-quiz">Quiz 5</span><h1>Quiz 5</h1><p class="lead">Folgt wenn Modul 5 fertig ist.</p></div>
@@ -2129,6 +2479,212 @@ function updateProgress() {
   document.getElementById('progress-fill').style.width = pct + '%';
   document.getElementById('progress-pct').textContent = pct + '%';
 }
+
+// ─── QUIZ M4 DATA ───
+QUIZ_DATA.m4 = {
+  correct: ['B','C','B','C','B','B','C'],
+  feedback: [
+    {
+      correct: 'Richtig. DDL steht für Data Definition Language (Datendefinitionssprache). Sie umfasst alle Befehle die die Struktur der Datenbank verändern: CREATE, ALTER, DROP, TRUNCATE.',
+      wrong: 'Falsch. DDL steht für Data Definition Language. Deletion, Description und Dynamic sind erfunden. DDL definiert die Struktur der Datenbank.'
+    },
+    {
+      correct: 'Richtig. DROP TABLE IF EXISTS löscht die Tabelle nur wenn sie existiert. Ohne IF EXISTS würde ein Fehler entstehen wenn die Tabelle nicht vorhanden ist.',
+      wrong: 'Falsch. DELETE TABLE gibt es nicht (DELETE ist für Zeilen, nicht Tabellen). REMOVE TABLE ist kein SQL-Befehl. DROP TABLE ohne IF EXISTS würde einen Fehler erzeugen wenn die Tabelle fehlt.'
+    },
+    {
+      correct: 'Richtig. DROP TABLE löscht die Tabelle komplett inkl. Struktur und allen Daten. TRUNCATE leert nur die Daten, die Tabellenstruktur bleibt erhalten.',
+      wrong: 'Falsch. Es ist genau andersherum: DROP löscht alles (Daten + Struktur), TRUNCATE löscht nur die Daten. Keiner der beiden Befehle ist rückgängig machbar.'
+    },
+    {
+      correct: 'Richtig. ALTER TABLE ... ADD COLUMN ist der korrekte Befehl um einer bestehenden Tabelle eine neue Spalte hinzuzufügen.',
+      wrong: 'Falsch. CREATE COLUMN, UPDATE TABLE und MODIFY TABLE sind keine gültigen SQL-Befehle für diesen Zweck. Der korrekte Befehl ist ALTER TABLE ... ADD COLUMN.'
+    },
+    {
+      correct: 'Richtig. Die erste Normalform (1NF) fordert atomare Werte: jede Zelle enthält genau einen einzelnen Wert. Keine kommaseparierten Listen in einem Feld.',
+      wrong: 'Falsch. Ein Primärschlüssel ist gute Praxis, aber keine 1NF-Anforderung. NOT NULL und keine Fremdschlüssel haben nichts mit 1NF zu tun. 1NF = atomare Werte in jeder Zelle.'
+    },
+    {
+      correct: 'Richtig. Ein FOREIGN KEY verweist auf den PRIMARY KEY einer anderen Tabelle. Dieser PK muss bereits existieren wenn der FK definiert wird. Daher muss die referenzierte Tabelle zuerst erstellt werden.',
+      wrong: 'Falsch. Die Reihenfolge spielt sehr wohl eine Rolle. Es hat nichts mit Indizes zu tun. Das gilt für alle SQL-Systeme, nicht nur MySQL.'
+    },
+    {
+      correct: 'Richtig. Jeder Index muss bei INSERT, UPDATE und DELETE aktualisiert werden. Zu viele Indizes verlangsamen also Schreiboperationen spürbar, auch wenn sie Leseoperationen beschleunigen.',
+      wrong: 'Falsch. SELECT-Abfragen werden durch Indizes schneller, nicht langsamer. Tabellen können trotz Indizes gelöscht werden. Fremdschlüssel sind unabhängig von Indizes.'
+    }
+  ]
+};
+
+// ─── TERMINAL ENGINE ───
+const terminalState = {};
+
+async function initSQLite() {
+  if (window.SQL) return;
+  try {
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/sql-wasm.js';
+    document.head.appendChild(script);
+    await new Promise((res, rej) => { script.onload = res; script.onerror = rej; });
+    const SQL = await initSqlJs({ locateFile: f => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/${f}` });
+    window.SQL = SQL;
+  } catch(e) {
+    console.error('SQLite load failed:', e);
+  }
+}
+
+function getDB(termId) {
+  if (!terminalState[termId]) {
+    terminalState[termId] = { db: new window.SQL.Database(), tasks: 0 };
+  }
+  return terminalState[termId];
+}
+
+function addLine(termId, text, cls) {
+  const out = document.getElementById('terminal-output-' + termId);
+  const div = document.createElement('div');
+  div.className = 'terminal-line ' + cls;
+  div.textContent = text;
+  out.appendChild(div);
+  out.scrollTop = out.scrollHeight;
+}
+
+function handleTerminalKey(e, termId) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    runSQL(termId);
+  }
+}
+
+function runSQL(termId) {
+  const input = document.getElementById('terminal-input-' + termId);
+  const sql = input.value.trim();
+  if (!sql) return;
+  input.value = '';
+
+  addLine(termId, 'sql> ' + sql, 'input');
+
+  if (!window.SQL) {
+    addLine(termId, 'Fehler: SQLite noch nicht geladen. Bitte warte einen Moment.', 'error');
+    return;
+  }
+
+  const state = getDB(termId);
+  const db = state.db;
+
+  // Spezialbefehl .tables
+  if (sql === '.tables') {
+    try {
+      const res = db.exec("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;");
+      if (res.length === 0 || res[0].values.length === 0) {
+        addLine(termId, '(keine Tabellen vorhanden)', 'output');
+      } else {
+        addLine(termId, res[0].values.map(r => r[0]).join('   '), 'table-out');
+      }
+    } catch(e) { addLine(termId, 'Fehler: ' + e.message, 'error'); }
+    checkDDLTasks(termId, sql, state);
+    return;
+  }
+
+  try {
+    const results = db.exec(sql);
+    if (results.length === 0) {
+      addLine(termId, 'OK.', 'success');
+    } else {
+      results.forEach(r => {
+        addLine(termId, r.columns.join(' | '), 'table-out');
+        addLine(termId, r.columns.map(() => '---').join('-|-'), 'output');
+        r.values.forEach(row => addLine(termId, row.join(' | '), 'table-out'));
+        addLine(termId, r.values.length + ' Zeile(n)', 'output');
+      });
+    }
+    checkDDLTasks(termId, sql, state);
+  } catch(e) {
+    addLine(termId, 'Fehler: ' + e.message, 'error');
+  }
+}
+
+function checkDDLTasks(termId, sql, state) {
+  if (termId !== 'ddl') return;
+  const db = state.db;
+  const s = sql.toUpperCase().replace(/\s+/g, ' ').trim();
+
+  // Task 0: abteilung Tabelle erstellt?
+  if (state.tasks === 0) {
+    try {
+      const r = db.exec("SELECT name FROM sqlite_master WHERE type='table' AND name='abteilung';");
+      if (r.length > 0 && r[0].values.length > 0) {
+        completeTask('ddl', 0);
+        state.tasks = 1;
+        addLine(termId, '✓ Aufgabe 1 abgeschlossen! Abteilungs-Tabelle existiert.', 'success');
+      }
+    } catch(e) {}
+  }
+
+  // Task 1: mitarbeiter Tabelle erstellt?
+  if (state.tasks === 1) {
+    try {
+      const r = db.exec("SELECT name FROM sqlite_master WHERE type='table' AND name='mitarbeiter';");
+      if (r.length > 0 && r[0].values.length > 0) {
+        completeTask('ddl', 1);
+        state.tasks = 2;
+        addLine(termId, '✓ Aufgabe 2 abgeschlossen! Mitarbeiter-Tabelle existiert.', 'success');
+      }
+    } catch(e) {}
+  }
+
+  // Task 2: einstellungsdatum Spalte hinzugefügt?
+  if (state.tasks === 2) {
+    try {
+      const r = db.exec("PRAGMA table_info(mitarbeiter);");
+      if (r.length > 0) {
+        const cols = r[0].values.map(v => v[1].toLowerCase());
+        if (cols.includes('einstellungsdatum')) {
+          completeTask('ddl', 2);
+          state.tasks = 3;
+          addLine(termId, '✓ Aufgabe 3 abgeschlossen! Spalte einstellungsdatum vorhanden.', 'success');
+        }
+      }
+    } catch(e) {}
+  }
+
+  // Task 3: DROP TABLE IF EXISTS ausgeführt?
+  if (state.tasks === 3 && s.includes('DROP TABLE IF EXISTS') && s.includes('TEMP_DATEN')) {
+    completeTask('ddl', 3);
+    state.tasks = 4;
+    addLine(termId, '✓ Aufgabe 4 abgeschlossen! Alle DDL-Aufgaben erledigt. 🎉', 'success');
+  }
+}
+
+function completeTask(termId, idx) {
+  const taskEl = document.getElementById('task-' + termId + '-' + idx);
+  const statusEl = document.getElementById('status-' + termId + '-' + idx);
+  const nextEl = document.getElementById('task-' + termId + '-' + (idx + 1));
+  if (taskEl) taskEl.classList.add('completed');
+  if (statusEl) statusEl.textContent = '✓ Erledigt';
+  if (nextEl) nextEl.classList.remove('locked');
+}
+
+function resetTerminal(termId) {
+  if (terminalState[termId]) {
+    terminalState[termId].db.close();
+    delete terminalState[termId];
+  }
+  const out = document.getElementById('terminal-output-' + termId);
+  out.innerHTML = '<div class="terminal-line system">Datenbank zurückgesetzt.</div>';
+
+  // Tasks zurücksetzen
+  for (let i = 0; i < 4; i++) {
+    const t = document.getElementById('task-' + termId + '-' + i);
+    const s = document.getElementById('status-' + termId + '-' + i);
+    if (t) { t.classList.remove('completed'); if (i > 0) t.classList.add('locked'); }
+    if (s) s.textContent = i > 0 ? '🔒 gesperrt' : '';
+  }
+  getDB(termId);
+}
+
+// SQLite beim Laden initialisieren
+initSQLite();
+
 </script>
 </body>
 </html>
