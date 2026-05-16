@@ -960,6 +960,9 @@ p strong { color: var(--text); font-weight: 600; }
         <div class="nav-item" onclick="showPage('m5-dml')">
           <span class="item-dot"></span> DML Befehle
         </div>
+        <div class="nav-item" onclick="showPage('m5-join')">
+          <span class="item-dot"></span> JOIN
+        </div>
         <div class="nav-item" onclick="showPage('m5-terminal')">
           <span class="item-dot"></span> &#9654; Praxis: Azubi-Chaos
         </div>
@@ -978,6 +981,9 @@ p strong { color: var(--text); font-weight: 600; }
       <div class="nav-items">
         <div class="nav-item" onclick="showPage('m6-dcl')">
           <span class="item-dot"></span> DCL Befehle
+        </div>
+        <div class="nav-item" onclick="showPage('m6-terminal')">
+          <span class="item-dot"></span> &#9654; Praxis: DCL Simulation
         </div>
         <div class="nav-item" onclick="showPage('m6-quiz')">
           <span class="item-dot"></span> Quiz 6
@@ -2334,6 +2340,79 @@ abteilung:   (1, 'IT'), (2, 'Vertrieb')
     <div class="divider"></div>
     <div style="display:flex;gap:1rem">
       <button class="btn-nav" onclick="showPage('m4-quiz')">&#8592; Zur&uuml;ck</button>
+      <button class="btn-nav primary" onclick="showPage('m5-terminal')">Weiter: JOIN &#8594;</button>
+    </div>
+  </div>
+
+  <!-- PLACEHOLDER_JOIN -->
+    <div class="page" id="page-m5-join">
+    <span class="chapter-tag tag-dml">Modul 05 &middot; JOIN</span>
+    <h1>JOIN &ndash; Tabellen verkn&uuml;pfen</h1>
+    <p class="lead">JOIN kombiniert Zeilen aus zwei oder mehr Tabellen anhand einer gemeinsamen Spalte. Ohne JOIN m&uuml;sstest du f&uuml;r jeden Mitarbeiter manuell die Abteilung nachschlagen.</p>
+
+    <h2>Warum JOIN?</h2>
+    <p>In einer normalisierten Datenbank stehen zusammengeh&ouml;rige Daten in verschiedenen Tabellen. Die Mitarbeitertabelle speichert nur die <code style="font-family:'DM Mono',monospace">abt_id</code>, nicht den vollen Abteilungsnamen. Mit JOIN holst du beide Informationen in einer einzigen Abfrage.</p>
+
+    <div class="db-visual">
+      <div class="db-table-vis">
+        <div class="db-table-header">&#9632; mitarbeiter</div>
+        <div class="db-table-row"><span class="db-col-name">id</span><span class="db-col-type">1</span></div>
+        <div class="db-table-row"><span class="db-col-name">name</span><span class="db-col-type">Ben Azubi</span></div>
+        <div class="db-table-row"><span class="db-col-name">abt_id</span><span class="db-col-fk">2</span></div>
+      </div>
+      <div style="display:inline-block;vertical-align:middle;padding:0 1rem;color:var(--accent);font-size:1.5rem">&#8594;</div>
+      <div class="db-table-vis">
+        <div class="db-table-header">&#9632; abteilung</div>
+        <div class="db-table-row"><span class="db-col-name">id</span><span class="db-col-pk">2</span></div>
+        <div class="db-table-row"><span class="db-col-name">bezeichnung</span><span class="db-col-type">IT</span></div>
+        <div class="db-table-row"><span class="db-col-name">standort</span><span class="db-col-type">K&ouml;ln</span></div>
+      </div>
+    </div>
+
+    <h2>INNER JOIN</h2>
+    <p>Gibt nur Zeilen zur&uuml;ck die in <strong>beiden</strong> Tabellen eine &Uuml;bereinstimmung haben. Mitarbeiter ohne Abteilung und Abteilungen ohne Mitarbeiter werden nicht angezeigt.</p>
+    <div class="code-block"><span class="code-lang">SQL</span><span class="kw">SELECT</span> m.name, m.gehalt, a.bezeichnung, a.standort
+<span class="kw">FROM</span> <span class="tbl">mitarbeiter</span> m
+<span class="kw">INNER JOIN</span> <span class="tbl">abteilung</span> a <span class="kw">ON</span> m.abt_id = a.id;
+
+<span class="cm">-- m und a sind Aliase (Kurzbezeichnungen) f&uuml;r die Tabellen</span>
+<span class="cm">-- ON legt fest welche Spalten verglichen werden</span></div>
+
+    <h2>LEFT JOIN</h2>
+    <p>Gibt <strong>alle</strong> Zeilen aus der linken Tabelle zur&uuml;ck, auch wenn es keine &Uuml;bereinstimmung in der rechten Tabelle gibt. Fehlende Werte erscheinen als NULL.</p>
+    <div class="code-block"><span class="code-lang">SQL</span><span class="kw">SELECT</span> m.name, a.bezeichnung
+<span class="kw">FROM</span> <span class="tbl">mitarbeiter</span> m
+<span class="kw">LEFT JOIN</span> <span class="tbl">abteilung</span> a <span class="kw">ON</span> m.abt_id = a.id;
+
+<span class="cm">-- Mitarbeiter ohne Abteilung erscheinen mit NULL bei bezeichnung</span></div>
+
+    <h2>RIGHT JOIN</h2>
+    <p>Gibt <strong>alle</strong> Zeilen aus der rechten Tabelle zur&uuml;ck, auch ohne &Uuml;bereinstimmung links.</p>
+    <div class="info-box yellow"><div class="box-label">Dialekt-Hinweis: SQLite</div><p>SQLite unterst&uuml;tzt kein RIGHT JOIN. Workaround: Tabellen tauschen und LEFT JOIN verwenden.<br><code style="font-family:'DM Mono',monospace">FROM abteilung a LEFT JOIN mitarbeiter m ON m.abt_id = a.id</code> &ndash; entspricht einem RIGHT JOIN auf mitarbeiter.</p></div>
+
+    <h2>Vergleich der JOIN-Typen</h2>
+    <table class="data-table">
+      <thead><tr><th>JOIN-Typ</th><th>Ergebnis</th><th>NULL-Zeilen m&ouml;glich?</th><th>SQLite?</th></tr></thead>
+      <tbody>
+        <tr><td>INNER JOIN</td><td>Nur &Uuml;bereinstimmungen aus beiden Tabellen</td><td>Nein</td><td>Ja</td></tr>
+        <tr><td>LEFT JOIN</td><td>Alle links + &Uuml;bereinstimmungen rechts</td><td>Ja (rechts)</td><td>Ja</td></tr>
+        <tr><td>RIGHT JOIN</td><td>Alle rechts + &Uuml;bereinstimmungen links</td><td>Ja (links)</td><td>Nein</td></tr>
+        <tr><td>FULL OUTER JOIN</td><td>Alle Zeilen beider Tabellen</td><td>Ja (beide)</td><td>Nein</td></tr>
+      </tbody>
+    </table>
+
+    <h2>JOIN mit mehreren Tabellen</h2>
+    <div class="code-block"><span class="code-lang">SQL</span><span class="cm">-- Drei Tabellen verkn&uuml;pfen</span>
+<span class="kw">SELECT</span> m.name, a.bezeichnung, p.projektname
+<span class="kw">FROM</span> <span class="tbl">mitarbeiter</span> m
+<span class="kw">INNER JOIN</span> <span class="tbl">abteilung</span> a <span class="kw">ON</span> m.abt_id = a.id
+<span class="kw">INNER JOIN</span> <span class="tbl">projekt</span> p <span class="kw">ON</span> m.projekt_id = p.id;</div>
+
+    <div class="info-box blue"><div class="box-label">F&uuml;r die IHK</div><p>INNER JOIN und LEFT JOIN sind Pflicht. Den Unterschied erkl&auml;ren k&ouml;nnen: INNER JOIN = Schnittmenge, LEFT JOIN = alle aus links. Die ON-Bedingung beschreibt die Verkn&uuml;pfung &uuml;ber Fremdschl&uuml;ssel.</p></div>
+
+    <div class="divider"></div>
+    <div style="display:flex;gap:1rem">
+      <button class="btn-nav" onclick="showPage('m5-dml')">&#8592; Zur&uuml;ck</button>
       <button class="btn-nav primary" onclick="showPage('m5-terminal')">Weiter: Praxis Azubi-Chaos &#8594;</button>
     </div>
   </div>
@@ -2572,6 +2651,64 @@ abteilung:   (1, 'IT'), (2, 'Vertrieb')
     <div class="divider"></div>
     <div style="display:flex;gap:1rem">
       <button class="btn-nav" onclick="showPage('m5-quiz')">&#8592; Zur&uuml;ck</button>
+      <button class="btn-nav primary" onclick="showPage('m6-quiz')">Weiter: Praxis DCL &#8594;</button>
+    </div>
+  </div>
+
+  <!-- PLACEHOLDER_DCL -->
+    <div class="page" id="page-m6-terminal">
+    <span class="chapter-tag tag-dcl">Modul 06 &middot; Praxis</span>
+    <h1>Praxis: DCL Simulation</h1>
+    <p class="lead">GRANT und REVOKE existieren in SQLite nicht. Dieses Terminal simuliert ein Rechtesystem damit du die Syntax &uuml;ben kannst. Alle Befehle werden gegen eine interne Benutzertabelle gepr&uuml;ft.</p>
+
+    <div class="info-box yellow"><div class="box-label">Simulation &ndash; kein echtes SQLite</div><p>Dieses Terminal ist eine JavaScript-Simulation. Die Befehle GRANT und REVOKE funktionieren hier genau wie in MySQL oder PostgreSQL w&uuml;rden. In einer echten SQLite-Datei w&uuml;rden diese Befehle einen Fehler erzeugen.</p></div>
+
+    <div id="dcl-tasks">
+      <div class="story-task" id="task-dcl-0">
+        <div class="task-header"><span class="task-num">Aufgabe 1 von 4</span><span class="task-status" id="status-dcl-0"></span></div>
+        <div class="task-story">Neuer Azubi fängt an. <em>&bdquo;Leg dem Benutzer &lsquo;lena_azubi&rsquo; nur Leserecht auf die Tabelle mitarbeiter.&ldquo;</em></div>
+        <div class="task-hint"><strong>Ziel:</strong> <code style="font-family:'DM Mono',monospace">GRANT SELECT ON mitarbeiter TO 'lena_azubi';</code></div>
+      </div>
+      <div class="story-task locked" id="task-dcl-1">
+        <div class="task-header"><span class="task-num">Aufgabe 2 von 4</span><span class="task-status" id="status-dcl-1">&#128274; gesperrt</span></div>
+        <div class="task-story"><em>&bdquo;Lena darf jetzt auch neue Eintr&auml;ge hinzuf&uuml;gen. Gib ihr INSERT-Recht zus&auml;tzlich.&ldquo;</em></div>
+        <div class="task-hint"><strong>Ziel:</strong> <code style="font-family:'DM Mono',monospace">GRANT INSERT ON mitarbeiter TO 'lena_azubi';</code></div>
+      </div>
+      <div class="story-task locked" id="task-dcl-2">
+        <div class="task-header"><span class="task-num">Aufgabe 3 von 4</span><span class="task-status" id="status-dcl-2">&#128274; gesperrt</span></div>
+        <div class="task-story">Lena verlässt das Unternehmen. <em>&bdquo;Entzieh ihr alle Rechte auf mitarbeiter.&ldquo;</em></div>
+        <div class="task-hint"><strong>Ziel:</strong> <code style="font-family:'DM Mono',monospace">REVOKE ALL PRIVILEGES ON mitarbeiter FROM 'lena_azubi';</code></div>
+      </div>
+      <div class="story-task locked" id="task-dcl-3">
+        <div class="task-header"><span class="task-num">Aufgabe 4 von 4</span><span class="task-status" id="status-dcl-3">&#128274; gesperrt</span></div>
+        <div class="task-story"><em>&bdquo;Neuer Admin &lsquo;max_admin&rsquo; bekommt alle Rechte auf alle Tabellen.&ldquo;</em></div>
+        <div class="task-hint"><strong>Ziel:</strong> <code style="font-family:'DM Mono',monospace">GRANT ALL PRIVILEGES ON *.* TO 'max_admin';</code></div>
+      </div>
+    </div>
+
+    <div class="terminal-wrapper">
+      <div class="terminal-header">
+        <span class="terminal-dot" style="background:#ff5f57"></span>
+        <span class="terminal-dot" style="background:#febc2e"></span>
+        <span class="terminal-dot" style="background:#28c840"></span>
+        <span class="terminal-title">DCL Simulation &middot; TowerTech GmbH &middot; [MySQL-Syntax]</span>
+        <button class="terminal-reset-btn" onclick="resetDCLTerminal()">Zur&uuml;cksetzen</button>
+      </div>
+      <div class="terminal-output" id="terminal-output-dcl">
+        <div class="terminal-line system">DCL-Simulation bereit. Benutzer: lena_azubi, max_admin</div>
+        <div class="terminal-line system">Verf&uuml;gbare Befehle: GRANT, REVOKE, SHOW GRANTS FOR user;</div>
+        <div class="terminal-line system">Hinweis: Dies ist eine Simulation. Echte SQLite unterst&uuml;tzt kein GRANT/REVOKE.</div>
+      </div>
+      <div class="terminal-input-row">
+        <span class="terminal-prompt">sql&gt;</span>
+        <textarea class="terminal-input" id="terminal-input-dcl" rows="2" placeholder="GRANT oder REVOKE eingeben..." onkeydown="handleDCLKey(event)"></textarea>
+        <button class="terminal-run-btn" onclick="runDCL()">Ausf&uuml;hren</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div style="display:flex;gap:1rem">
+      <button class="btn-nav" onclick="showPage('m6-dcl')">&#8592; Zur&uuml;ck</button>
       <button class="btn-nav primary" onclick="showPage('m6-quiz')">Weiter: Quiz 6 &#8594;</button>
     </div>
   </div>
@@ -3092,8 +3229,8 @@ const PAGE_ORDER = [
   'm2-intro','m2-systeme','m2-quiz',
   'm3-typen','m3-quiz',
   'm4-ddl','m4-terminal','m4-quiz',
-  'm5-dml','m5-terminal','m5-quiz',
-  'm6-dcl','m6-quiz',
+  'm5-dml','m5-join','m5-terminal','m5-quiz',
+  'm6-dcl','m6-terminal','m6-quiz',
   'm7-sec','m7-quiz',
   'final-quiz'
 ];
@@ -3112,9 +3249,11 @@ const BREADCRUMBS = {
   'm4-terminal': 'Modul 4 · Praxis Terminal',
   'm4-quiz': 'Modul 4 · Quiz',
   'm5-dml': 'Modul 5 · DML Befehle',
+  'm5-join': 'Modul 5 · JOIN',
   'm5-terminal': 'Modul 5 · Praxis Terminal',
   'm5-quiz': 'Modul 5 · Quiz',
   'm6-dcl': 'Modul 6 · DCL',
+  'm6-terminal': 'Modul 6 · Praxis DCL',
   'm6-quiz': 'Modul 6 · Quiz',
   'm7-sec': 'Modul 7 · Sicherheit',
   'm7-quiz': 'Modul 7 · Quiz',
@@ -3855,6 +3994,157 @@ window.showQuizResult = function(quizId, total) {
   const scoreEl = document.getElementById('score-' + quizId);
   if (scoreEl) scoreEl.textContent = score + '/' + total;
   updateProgress();
+};
+
+
+// ─── DCL SIMULATION ───
+const dclState = {
+  users: {
+    'lena_azubi': {},
+    'max_admin': {}
+  },
+  tasks: 0
+};
+
+function handleDCLKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); runDCL(); }
+}
+
+function addDCLLine(text, cls) {
+  const out = document.getElementById('terminal-output-dcl');
+  const div = document.createElement('div');
+  div.className = 'terminal-line ' + cls;
+  div.textContent = text;
+  out.appendChild(div);
+  out.scrollTop = out.scrollHeight;
+}
+
+function runDCL() {
+  const input = document.getElementById('terminal-input-dcl');
+  const raw = input.value.trim();
+  if (!raw) return;
+  input.value = '';
+  addDCLLine('sql> ' + raw, 'input');
+
+  const sql = raw.toUpperCase().replace(/\s+/g, ' ').trim();
+
+  // SHOW GRANTS
+  if (sql.startsWith('SHOW GRANTS FOR')) {
+    const match = raw.match(/FOR\s+['"](\w+)['"]/i);
+    if (match) {
+      const user = match[1].toLowerCase();
+      const key = Object.keys(dclState.users).find(u => u.toLowerCase() === user);
+      if (key) {
+        const grants = dclState.users[key];
+        const tables = Object.keys(grants);
+        if (tables.length === 0) { addDCLLine('Keine Rechte vergeben.', 'output'); }
+        else { tables.forEach(t => addDCLLine('GRANT ' + grants[t].join(', ') + ' ON ' + t + ' TO ' + key, 'table-out')); }
+      } else { addDCLLine('Fehler: Benutzer nicht gefunden.', 'error'); }
+    } else { addDCLLine('Syntax: SHOW GRANTS FOR \'username\';', 'error'); }
+    return;
+  }
+
+  // GRANT
+  const grantMatch = raw.match(/GRANT\s+(.+?)\s+ON\s+([\w.*]+)\s+TO\s+['"](\w+)['"]/i);
+  if (grantMatch) {
+    const rights = grantMatch[1].toUpperCase().split(',').map(r => r.trim());
+    const table = grantMatch[2];
+    const user = grantMatch[3];
+    const key = Object.keys(dclState.users).find(u => u.toLowerCase() === user.toLowerCase());
+    if (!key) { addDCLLine('Fehler: Benutzer \'' + user + '\' existiert nicht.', 'error'); return; }
+    if (!dclState.users[key][table]) dclState.users[key][table] = [];
+    if (rights.includes('ALL PRIVILEGES') || rights.includes('ALL')) {
+      dclState.users[key][table] = ['ALL PRIVILEGES'];
+    } else {
+      rights.forEach(r => { if (!dclState.users[key][table].includes(r)) dclState.users[key][table].push(r); });
+    }
+    addDCLLine('OK. Rechte vergeben: ' + rights.join(', ') + ' ON ' + table + ' TO ' + key, 'success');
+    checkDCLTasks(sql, rights, table, key, 'grant');
+    return;
+  }
+
+  // REVOKE
+  const revokeMatch = raw.match(/REVOKE\s+(.+?)\s+ON\s+([\w.*]+)\s+FROM\s+['"](\w+)['"]/i);
+  if (revokeMatch) {
+    const rights = revokeMatch[1].toUpperCase().split(',').map(r => r.trim());
+    const table = revokeMatch[2];
+    const user = revokeMatch[3];
+    const key = Object.keys(dclState.users).find(u => u.toLowerCase() === user.toLowerCase());
+    if (!key) { addDCLLine('Fehler: Benutzer \'' + user + '\' existiert nicht.', 'error'); return; }
+    if (rights.includes('ALL PRIVILEGES') || rights.includes('ALL')) {
+      delete dclState.users[key][table];
+    } else {
+      if (dclState.users[key][table]) {
+        dclState.users[key][table] = dclState.users[key][table].filter(r => !rights.includes(r));
+        if (dclState.users[key][table].length === 0) delete dclState.users[key][table];
+      }
+    }
+    addDCLLine('OK. Rechte entzogen: ' + rights.join(', ') + ' ON ' + table + ' FROM ' + key, 'success');
+    checkDCLTasks(sql, rights, table, key, 'revoke');
+    return;
+  }
+
+  addDCLLine('Unbekannter Befehl. Verf\u00fcgbar: GRANT, REVOKE, SHOW GRANTS FOR user;', 'error');
+}
+
+function checkDCLTasks(sql, rights, table, user, type) {
+  const t = table.toLowerCase();
+  const u = user.toLowerCase();
+
+  if (dclState.tasks === 0 && type === 'grant' && t === 'mitarbeiter' && u === 'lena_azubi' && rights.includes('SELECT')) {
+    completeDCLTask(0); dclState.tasks = 1;
+    addDCLLine('\u2713 Aufgabe 1 erledigt!', 'success');
+  }
+  if (dclState.tasks === 1 && type === 'grant' && t === 'mitarbeiter' && u === 'lena_azubi' && rights.includes('INSERT')) {
+    completeDCLTask(1); dclState.tasks = 2;
+    addDCLLine('\u2713 Aufgabe 2 erledigt!', 'success');
+  }
+  if (dclState.tasks === 2 && type === 'revoke' && t === 'mitarbeiter' && u === 'lena_azubi') {
+    completeDCLTask(2); dclState.tasks = 3;
+    addDCLLine('\u2713 Aufgabe 3 erledigt! Auf Wiedersehen, Lena.', 'success');
+  }
+  if (dclState.tasks === 3 && type === 'grant' && u === 'max_admin' && (rights.includes('ALL PRIVILEGES') || rights.includes('ALL'))) {
+    completeDCLTask(3); dclState.tasks = 4;
+    addDCLLine('\u2713 Aufgabe 4 erledigt! Alle DCL-Aufgaben abgeschlossen. \uD83C\uDF89', 'success');
+  }
+}
+
+function completeDCLTask(idx) {
+  const taskEl = document.getElementById('task-dcl-' + idx);
+  const statusEl = document.getElementById('status-dcl-' + idx);
+  const nextEl = document.getElementById('task-dcl-' + (idx + 1));
+  if (taskEl) taskEl.classList.add('completed');
+  if (statusEl) statusEl.textContent = '\u2713 Erledigt';
+  if (nextEl) { nextEl.classList.remove('locked'); nextEl.style.opacity = ''; nextEl.style.pointerEvents = ''; }
+}
+
+function resetDCLTerminal() {
+  dclState.tasks = 0;
+  Object.keys(dclState.users).forEach(u => { dclState.users[u] = {}; });
+  const out = document.getElementById('terminal-output-dcl');
+  out.innerHTML = '<div class="terminal-line system">Zur\u00fcckgesetzt. Alle Rechte gel\u00f6scht.</div>';
+  for (let i = 0; i < 4; i++) {
+    const t = document.getElementById('task-dcl-' + i);
+    const s = document.getElementById('status-dcl-' + i);
+    if (t) { t.classList.remove('completed'); if (i > 0) { t.classList.add('locked'); t.style.opacity = ''; t.style.pointerEvents = ''; } }
+    if (s) s.textContent = i > 0 ? '\uD83D\uDD12 gesperrt' : '';
+  }
+}
+
+// ─── BUG FIX: completeTask locked CSS ───
+// Override completeTask to also fix opacity/pointer-events
+const _origCompleteTask = completeTask;
+window.completeTask = function(termId, idx) {
+  const taskEl = document.getElementById('task-' + termId + '-' + idx);
+  const statusEl = document.getElementById('status-' + termId + '-' + idx);
+  const nextEl = document.getElementById('task-' + termId + '-' + (idx + 1));
+  if (taskEl) taskEl.classList.add('completed');
+  if (statusEl) statusEl.textContent = '\u2713 Erledigt';
+  if (nextEl) {
+    nextEl.classList.remove('locked');
+    nextEl.style.opacity = '1';
+    nextEl.style.pointerEvents = 'auto';
+  }
 };
 
 </script>
